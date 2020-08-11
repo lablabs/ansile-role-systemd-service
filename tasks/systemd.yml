@@ -25,12 +25,13 @@
     service: "{{ item.service_config }}"
   with_items:
     - "{{ systemd_service }}"
+  notify:
+    - restart service
 
 - name: Setup systemd services
   systemd:
     name: "{{ item.service_name }}"
     enabled: "{{ item.service_enabled | default(false) }}"
     state: "{{ item.service_status | default('stopped') }}"
-    daemon_reload: true
   with_items:
     - "{{ systemd_service }}"
